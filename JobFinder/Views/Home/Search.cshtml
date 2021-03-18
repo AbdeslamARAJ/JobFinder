@@ -1,0 +1,70 @@
+﻿@model IEnumerable<JobFinder.Model.Job>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<section class="job-form-section job-form-section--compressed">
+ <div class="container justify-content-center">
+     <form id="job-main-form" method="get" action="search" class="job-main-form align-self-start">
+         <div class="controls justify-content-center">
+             <div class="row align-items-center col justify-content-xl-center">
+                 <div class="col ml-auto form-group">
+                     <input type="text" id="position" name="position"
+                            placeholder="Job description" class="form-control" value="@Context.Request.Query["position"].ToString()">
+                 </div>
+                 <div class="col form-group">
+                     <input type="text" id="location" name="location" placeholder="City"
+                            value="@Context.Request.Query["location"].ToString()" class="form-control">
+                 </div>
+                 <div class="col-10 col-md-3 col-lg-2 ml-auto form-group">
+                     <button type="submit" class="btn btn-outline-white-primary job-main-form__button btn-success">
+                         <i class="fa fa-search">Search</i>
+                     </button>
+                 </div>
+             </div>
+         </div>
+     </form>
+</div>
+</section>
+<section>
+    <div class="container">
+        <h3 class="heading">We have found <span class="accent">@Model.Count()</span> jobs</h3>
+        @foreach (var job in Model)
+        {
+            <div class="job-listing  ">
+                <div class="row">
+                    <div class="col-md-12 col-lg-6">
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="@job.Company_logo"
+                                     alt="" class="img-fluid">
+                            </div>
+                            <div class="col-10">
+                                <h4 class="job__title">
+                                    <a href="{% url 'jobs:jobs-detail' job.id %}">
+                                        @job.Title
+                                    </a>
+                                </h4>
+                                <p class="job__company">
+                                    @job.Company
+                                </p>
+                                <p class="job__company">
+                                    @job.Type
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-10 col-md-3 col-lg-2 ml-auto">
+                        <i class="fa fa-map-marker job__location"></i>
+                        @job.Location
+                    </div>
+                    <div class="col-10 col-md-3 col-lg-3 ml-auto">
+                        <p>Posted @job.Created_at</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
